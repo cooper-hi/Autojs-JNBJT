@@ -54,21 +54,8 @@ function work(flag) {
     sleep(SLEEP);
     click(900, 300);
     sleep(SLEEP);
-    if (flag) {
-        var p = findImage(images.captureScreen(), this.sptemp, {
-            region: [600, 600, 400, 300],
-            threshold: 0.9
-        });
-        if (p) {
-            click(1600, 300);
-            sleep(SLEEP);
-            // 当有特殊角色时，选择第一个直接开始
-            click(1600, 300);
-            sleep(SLEEP);
-        } else {
-            flag = false;
-        }
-    }
+    click(900, 300);
+    sleep(SLEEP);
     reBack();
     reBack();
 }
