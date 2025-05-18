@@ -62,6 +62,9 @@ function work(flag) {
         if (p) {
             click(1600, 300);
             sleep(SLEEP);
+            // 当有特殊角色时，选择第一个直接开始
+            click(1600, 300);
+            sleep(SLEEP);
         } else {
             flag = false;
         }
