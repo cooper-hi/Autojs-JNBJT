@@ -2,7 +2,7 @@ var SIZE = [device.height, device.width]; // 手机尺寸，因为横屏所以�
 var REBACK = [390, 150]; // 无效点，地图上一个没有建筑的点，用于返回操作
 var HALFBLOCK = 62; // 拼图边长的一半，一般不用动
 var SLEEP = 500; // 休眠（ms），一般不用动
-var MINS = 3; // 循环用时（min）
+var MINS = 4; // 循环用时（min）
 var DELAY = 5; // 循环延迟（s）
 var WARN = 5; // 提醒时间（s）
 var SIPMLE = true; /* 简单坐标模式，true代表开启，false代表关闭，
@@ -17,30 +17,31 @@ var PLAYING = true; /* 挂机模式，true代表开启，false代表关闭，
                     */
 var TASKS = [
     [0, 4], //最上方
-    [1, 3],
-    [-1, 3],
-    [2, 2],
-    //[0, 2], //没开地基会导致点到雕像
-    [-2, 2],
-    [3, 1],
-    [1, 1],
-    [-3, 1],
-    [4, 0], //最右方
-    [-2, 0],
-    [-4, 0],//最左方
-    [3, -1],
-    [1, -1],
-    [-3, -1],
-    [2, -2],
+    [0, 2], //没开地基会导致点到雕像
     [0, -2],
-    [-2, -2],
-    [-1, -3],
     [0, -4],//最下方
+    [1, 3],
+    [1, 1],
+    [1, -1],
+    [2, 2],
+    [2, -2],
+    [3, 1],
+    [3, -1],
+    [4, 0], //最右方
+    [-1, 3],
+    [-1, -3],
+    [-2, 2],
+    [-2, 0],
+    [-2, -2],
+    [-3, 1],
+    [-3, -1],
+    [-4, 0],//最左方
 ];
 
 // 换算简单坐标为实际坐标
 function clickJing(i, j) {
     click(1100 + i * 202, 512 - j * 101)  // 横屏
+    sleep(SLEEP);
 }
 
 // 回退操作
@@ -124,31 +125,24 @@ function main(task) {
     }
 }
 
+try {
+    main(TASKS);
+} catch (error) {
+    console.log("循环外启动异常：", error);
+}
 
-images.requestScreenCapture();
-launchApp("江南百景图");
-sleep(2000);
-main(TASKS);
 
 //循环运行
 setInterval(function () {
-    if (!PLAYING) {
-        launchApp("江南百景图");
-        sleep(SLEEP * 4);
-    }
-    // 判断是否有拼图，并把拼图左上坐标传入解拼图函数
-    var screen_image = images.captureScreen();
-    var templ = images.read("./defult/temps.jpg");
-    var p = findImage(screen_image, templ, {
-        threshold: 0.8,
-    });
-    templ.recycle();
-    if (p) {
-        log("发现拼图");
-        jigsaw(screen_image, p.x + 80, p.y + 240);
-    } else {
-        screen_image.recycle();
+    console.log("循环运行开始");
+    try {
+        if (!PLAYING) {
+            launchApp("江南百景图");
+            sleep(SLEEP * 4);
+        }
+        main(TASKS);
+    } catch (error) {
+        console.log("循环运行异常", error);
     }
 
-    main(TASKS);
 }, MINS * 60 * 1000 + DELAY * 1000 - WARN * 1000 - SLEEP * 4)
