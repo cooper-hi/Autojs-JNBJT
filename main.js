@@ -1,8 +1,8 @@
 var SIZE = [device.height, device.width]; // 手机尺寸，因为横屏所以要反着写
-var REBACK = [390, 150]; // 无效点，地图上一个没有建筑的点，用于返回操作
+var REBACK = [260, 150]; // 无效点，地图上一个没有建筑的点，用于返回操作
 var HALFBLOCK = 62; // 拼图边长的一半，一般不用动
 var SLEEP = 500; // 休眠（ms），一般不用动
-var MINS = 4; // 循环用时（min）
+var MINS = 3.5; // 循环用时（min）
 var DELAY = 5; // 循环延迟（s）
 var WARN = 5; // 提醒时间（s）
 var SIPMLE = true; /* 简单坐标模式，true代表开启，false代表关闭，
@@ -50,12 +50,12 @@ function reBack() {
     sleep(SLEEP);
 }
 
-// 对每一个被点击的井，进入第一档工作状态
+// 对每一个被点击的井，进入第二档工作状态
 function work(flag) {
     sleep(SLEEP);
     click(900, 300);
     sleep(SLEEP);
-    click(900, 300);
+    click(1500, 300);
     sleep(SLEEP);
     reBack();
     reBack();
